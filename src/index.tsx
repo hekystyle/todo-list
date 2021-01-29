@@ -3,24 +3,33 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { configureStore } from '@reduxjs/toolkit';
-import { todosReducer } from './redux/todosSlice';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { restoreAction, todosReducer } from './redux/todosSlice';
 import { Provider } from "react-redux";
+import { logger } from "redux-logger";
+import { persistorMiddleware } from './redux/persistorMiddleware';
 
 const store = configureStore({
-  reducer: todosReducer,
+	reducer: todosReducer,
+	middleware: [
+		...getDefaultMiddleware(),
+		logger,
+		persistorMiddleware,
+	],
 });
+
+store.dispatch(restoreAction());
 
 export type AppState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+	<React.StrictMode>
+		<Provider store={store}>
+			<App />
+		</Provider>
+	</React.StrictMode>,
+	document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
