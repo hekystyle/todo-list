@@ -22,7 +22,7 @@ const todosSlice = createSlice({
 			reducer: (state, action: PayloadAction<IToDo>) => [...state, action.payload],
 			prepare: (text: string) => ({
 				payload: {
-					id: (new Date().getTime()),
+					id: Date.now(),
 					text: text,
 				},
 			}),
