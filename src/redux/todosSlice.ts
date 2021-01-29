@@ -22,8 +22,15 @@ const todosSlice = createSlice({
 			reducer: (state, action: PayloadAction<IToDo>) => [...state, action.payload],
 			prepare: (text: string) => ({
 				payload: {
+					id: (new Date().getTime()),
 					text: text,
 				},
+			}),
+		},
+		remove: {
+			reducer: (state, action: PayloadAction<IToDo>) => state.filter(todo => todo.id !== action.payload.id),
+			prepare: (todo: IToDo) => ({
+				payload: todo,
 			}),
 		},
 	},
@@ -32,3 +39,4 @@ const todosSlice = createSlice({
 export const todosReducer = todosSlice.reducer;
 export const restoreAction = todosSlice.actions.restore;
 export const addTodoAction = todosSlice.actions.add;
+export const removeTodoAction = todosSlice.actions.remove;

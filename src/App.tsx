@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, AppState } from ".";
 import { IToDo } from "./model/IToDo";
-import { addTodoAction } from "./redux/todosSlice";
+import { addTodoAction, removeTodoAction } from "./redux/todosSlice";
 
 function App() {
 	const todos = useSelector<AppState, IToDo[]>(s => s);
@@ -28,7 +28,10 @@ function App() {
 			<section>
 				<ul>
 					{todos.map((todo, i) => (
-						<li key={i}>{todo.text}</li>
+						<li key={i}>
+							{todo.text}
+							<button onClick={() => dispatch(removeTodoAction(todo))}>X</button>
+						</li>
 					))}
 				</ul>
 			</section>
